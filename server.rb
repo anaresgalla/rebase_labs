@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require 'pg'
 require 'json'
 
-DB_SETTINGS = { dbname: 'postgres', host: 'postgres', password: 'postgres', user: 'postgres' }
+DB_SETTINGS = { dbname: 'postgres', host: 'postgres', password: 'postgres', user: 'postgres' }.freeze
 
 def db_connection
   PG.connect(DB_SETTINGS)
@@ -14,10 +16,10 @@ get '/tests' do
   conn.close
 
   content_type :json
-  rows.map { |row| row.to_h }.to_json
+  rows.map(&:to_h).to_json
 end
 
-get '/hello' do
+get '/' do
   'Hello world!'
 end
 
