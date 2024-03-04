@@ -3,23 +3,26 @@ services:
   postgres:
     image: postgres
     environment:
-      POSTGRES_HOST: postgres
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     networks:
       - defaultNetwork
 
-  rebaselabserver:
-    build: .
+  rebase-challenge:
+    image: ruby
     command: bash -c "bundle install && ruby import_from_csv.rb && ruby server.rb"
     volumes:
       - .:/app
+    working_dir: /app
     ports:
       - "3000:3000"
     depends_on:
       - postgres
     networks:
       - defaultNetwork
+
 networks:
   defaultNetwork:
+    driver: bridge
+    
