@@ -9,6 +9,7 @@ end
 
 def create_table(conn)
   conn.exec("CREATE TABLE IF NOT EXISTS tests (
+            id SERIAL,
             cpf VARCHAR,
             nome_paciente VARCHAR,
             email_paciente VARCHAR,
@@ -30,9 +31,13 @@ end
 
 def import_data(conn)
   CSV.foreach("./data.csv", col_sep: ';', headers: true) do |row|
-    conn.exec_params("INSERT INTO tests VALUES ($1, $2, $3, $4, $5, $6, 
-                      $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)",
-                     row.fields)
+    conn.exec_params("INSERT INTO tests (cpf, nome_paciente, email_paciente, data_nascimento_paciente, 
+                                         endereco_rua_paciente, cidade_paciente, estado_paciente, crm_medico, 
+                                         crm_medico_estado, nome_medico, email_medico, token_resultado_exame, 
+                                         data_exame, tipo_exame, limites_tipo_exame, resultado_tipo_exame) 
+                                         VALUES ($1, $2, $3, $4, $5, $6, 
+                                                 $7, $8, $9, $10, $11, $12, $13, $14, $15, $16)",
+                                         row.fields)
   end
 end
 
