@@ -39,3 +39,5 @@ O comando --build reconstrói as imagens Docker antes de iniciar os contêineres
 ```bash
     docker-compose down
 ```
+
+### O banco de dados persiste para uso.
