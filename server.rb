@@ -1,25 +1,29 @@
 # frozen_string_literal: true
 
 require 'sinatra'
-require 'pg'
-require 'json'
+require_relative 'controllers/tests_controller'
+require_relative 'services/test_service'
 
-DB_SETTINGS = { dbname: 'postgres', host: 'postgres', password: 'postgres', user: 'postgres' }.freeze
+test_service = TestService.new('data.csv')
+tests_controller = TestsController.new(test_service)
 
-def db_connection
-  PG.connect(DB_SETTINGS)
+get '/exames' do
+  headers 'Access-Control-Allow-Origin' => '*'
+  content_type 'text/html'
+  File.open('index.html')
+end
+
+get '/styles.css' do
+  content_type 'text/css'
+  File.read('styles.css')
 end
 
 get '/tests' do
-  conn = db_connection
-  rows = conn.exec('SELECT * FROM tests;')
-  conn.close
-
   content_type :json
-  rows.map(&:to_h).to_json
+  tests_controller.index
 end
 
-get '/' do
+get '/hello' do
   'Hello world!'
 end
 
