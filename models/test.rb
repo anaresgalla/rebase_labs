@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
+# somente reader
+# define classe Test com atr de leitura e mét. construtor (inicializa os atributos com os valores de um hash)
+
 class Test
+
   attr_reader :cpf, :nome_paciente, :email_paciente, :data_nascimento_paciente, :endereco_rua_paciente, 
               :cidade_paciente, :estado_paciente, :crm_medico, :crm_medico_estado, :nome_medico, 
               :email_medico, :token_resultado_exame, :data_exame, :tipo_exame, :limites_tipo_exame, :resultado_tipo_exame

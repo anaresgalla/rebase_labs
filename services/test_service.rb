@@ -2,6 +2,8 @@
 
 require 'csv'
 
+# get_tests lê o arq CSV, retorna um array de hashes
+# search que procura pelo token
 class TestService
   def initialize(csv_file_path)
     @csv_file_path = csv_file_path
@@ -43,5 +45,14 @@ class TestService
       @tests = @tests.values
     end
     @tests
+  end
+
+  def search(token)
+    get_tests.each do |test|      
+      if test["token resultado exame"] == token
+        return test
+      end
+    end
+    nil
   end
 end
