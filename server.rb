@@ -53,10 +53,10 @@ post '/import' do
     file_path = 'data/new_data.csv'
 
     ImportJob.perform_async(file_path)
-    @message = 'Importação realizada com sucesso'
+    @message = 'Importação realizada com sucesso!'
 
   else
-    @message = 'Erro: Arquivo inválido'
+    @message = 'Erro: Arquivo inválido.'
   end
 
   ImportJob.perform_async

@@ -3,26 +3,26 @@
   <title>RebaseLabs</title>
 </head>
 <body>
-  <h1>Exames</h1>
+  <h1>Sistema de Resultados de Exames</h1>
   <div class="container">
     <% if @message %>
       <div class="message"><%= @message %></div>
     <% end %>
-    <div id="search-container">
-      <input type="text" id="search-input" placeholder="Digite o token do exame">
-      <button id="search-button">Buscar</button>
-    </div>
-    <div id="pagination">
-      <button id="prev-page">Página Anterior</button>
-      <button id="next-page">Próxima Página</button>
+    <div class="search" id="search-container">
+      <input type="text" class="search-input" id="search-input" placeholder="Digite o token do exame">
+      <button class="button-search" id="search-button">Buscar</button>
     </div>
     <div>
-      <form action="/import" method="post" enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="submit" value="Importar">
+      <form action="/import" method="post" class="import" enctype="multipart/form-data">
+        <input type="file" class="file" name="file">
+        <input type="submit" class="import-button" value="Importar">
       </form>
     </div>
-    <ul></ul>
+    <ul class="ul"></ul>
+    <div class="pagination" id="pages">
+      <button class="button-left" id="prev-page">Página Anterior</button>
+      <button class="button-right" id="next-page">Próxima Página</button>
+    </div>
   </div>
   <script src="main.js"></script>
 </body>

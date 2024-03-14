@@ -1,5 +1,5 @@
 let currentPage = 1;
-const itemsPerPage = 2;
+const itemsPerPage = 1;
 const fragment = new DocumentFragment();
 const url = '/tests';
 
@@ -9,26 +9,25 @@ document.addEventListener('DOMContentLoaded', (event) => {
   function createListItem(patient) {
     const li = document.createElement('li');
     li.innerHTML = `      
-      <h3>Token do exame: ${patient['token resultado exame']}</h3>
+      <h4>Token do exame: ${patient['token resultado exame']}</h4>
       <strong>Data do exame:</strong> ${new Date(patient['data exame']).toLocaleDateString('pt-BR')}
-      <h3>Paciente</h3>
+      <h4>Dados do Paciente</h4>
       <div class='data-patient'> 
-        <strong>Nome:</strong> ${patient['nome paciente']} | 
-        <strong>Data de Nascimento:</strong> ${new Date(patient['data nascimento paciente']).toLocaleDateString('pt-BR')} | 
-        <strong>Endereço:</strong> ${patient['endereço/rua paciente']} | 
-        <strong>Cidade:</strong> ${patient['cidade paciente']} | 
-        <strong>Estado:</strong> ${patient['estado paciente']} 
+        <strong>Nome:</strong> ${patient['nome paciente']}<br> 
+        <strong>Data de Nascimento:</strong> ${new Date(patient['data nascimento paciente']).toLocaleDateString('pt-BR')}<br>
+        <strong>Endereço:</strong> ${patient['endereço/rua paciente']}, ${patient['cidade paciente']} - ${patient['estado paciente']} 
       </div>
-      <h3>Médico</h3>
+      <h4>Dados do Médico</h4>
       <div class='data-doctor'> 
-        <strong>Nome:</strong> ${patient['nome médico']} |
-        <strong>CRM/Estado:</strong> ${patient['crm médico']}/${patient['crm médico estado']} |
+        <strong>Nome:</strong> ${patient['nome médico']}<br>
+        <strong>CRM - Estado:</strong> ${patient['crm médico']} - ${patient['crm médico estado']}<br> 
         <strong>Email:</strong> ${patient['email médico']}
       </div>
-      <h3>Resultados</h3>
+      <h4>Resultados</h4>
       <div class='result-exam'> 
         <ul>
-          ${patient.exames.map(exame => `<li><strong>${exame['tipo exame']}:</strong><br> Limites: ${exame['limites tipo exame']} - Resultado:</strong>  ${exame['resultado tipo exame']}</li>`).join('')}
+          ${patient.exames.map(exame => `<h4>${exame['tipo exame'].toUpperCase()}:</h4> 
+          <ul><strong>Resultado:</strong>  ${exame['resultado tipo exame']} ------ <strong>Limites:</strong> ${exame['limites tipo exame']} </ul>`).join('')}
         </ul>
       </div>`;
     li.classList.add('item-exam');
@@ -94,7 +93,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     fetch(url).
       then((response) => {
         if (!response.ok) {
-          throw new Error('Exame não encontrado');
+          throw new Error('Exame não encontrado.');
         }
         return response.json();
       }).
