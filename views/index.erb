@@ -5,6 +5,9 @@
 <body>
   <h1>Exames</h1>
   <div class="container">
+    <% if @message %>
+      <div class="message"><%= @message %></div>
+    <% end %>
     <div id="search-container">
       <input type="text" id="search-input" placeholder="Digite o token do exame">
       <button id="search-button">Buscar</button>
@@ -12,6 +15,12 @@
     <div id="pagination">
       <button id="prev-page">Página Anterior</button>
       <button id="next-page">Próxima Página</button>
+    </div>
+    <div>
+      <form action="/import" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="submit" value="Importar">
+      </form>
     </div>
     <ul></ul>
   </div>

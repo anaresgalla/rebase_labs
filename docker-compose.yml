@@ -21,6 +21,34 @@ services:
       - "3000:3000"
     depends_on:
       - postgres
+      - redis
+    environment:
+      - DBHOST=postgres
+      - REDIS_URL=redis://redis:6379/0
+    networks:
+      - defaultNetwork
+
+  sidekiq:
+    image: ruby
+    container_name: sidekiq
+    working_dir: /app
+    volumes:
+      - .:/app
+      - ./bundle:/usr/local/bundle
+    ports: []
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      - DBHOST=postgres
+      - REDIS_URL=redis://redis:6379/0
+    command: bash -c "bundle install && sidekiq -r ./import_job.rb sidekiq -r ./import_job.rb"
+    networks:
+      - defaultNetwork
+
+  redis:
+    image: redis
+    container_name: redis
     networks:
       - defaultNetwork
 

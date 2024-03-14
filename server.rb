@@ -4,6 +4,7 @@
 require 'sinatra'
 require_relative 'controllers/tests_controller'
 require_relative 'services/test_service'
+require_relative 'import_job'
 
 test_service = TestService.new('data.csv')
 tests_controller = TestsController.new(test_service)
@@ -11,7 +12,7 @@ tests_controller = TestsController.new(test_service)
 get '/exames' do
   headers 'Access-Control-Allow-Origin' => '*' # --> qualquer site pode fazer requisições para a rota
   content_type 'text/html'
-  File.open('index.html')
+  erb :index
 end
 
 get '/styles.css' do
@@ -34,6 +35,32 @@ get '/tests/:token' do
     status 404
     { error: 'Exame não encontrado' }.to_json
   end
+end
+
+post '/import' do
+  if params['file'] && (params['file']['type'] == 'text/csv')
+    
+    file = params[:file][:tempfile]
+    csv_content = CSV.read(file, headers: true, col_sep: ';')
+
+    CSV.open('data/new_data.csv', 'w', col_sep: ';') do |csv|
+      csv << csv_content.headers
+
+      csv_content.each do |row|
+        csv << row
+      end
+    end
+    file_path = 'data/new_data.csv'
+
+    ImportJob.perform_async(file_path)
+    @message = 'Importação realizada com sucesso'
+
+  else
+    @message = 'Erro: Arquivo inválido'
+  end
+
+  ImportJob.perform_async
+  erb :index
 end
 
 get '/hello' do
